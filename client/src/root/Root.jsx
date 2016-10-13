@@ -18,16 +18,41 @@ class RootComponent extends React.Component {
 
   render() {
     var searchlabel
+    var lastScrollTop = 0
+
+    var delta = 5
     if (this.props.location.pathname !== "/"){
         this.breadcrumbs = <Breadcrumbs
             routes={this.props.routes}
             params={this.props.params}
         />
         searchlabel = 'searchHover'
+
     } else {
         this.breadcrumbs = undefined
         searchlabel =  "searchMapSpace"
     }
+
+    window.addEventListener('scroll', (event) => {
+      var elem =document.getElementById('footer')
+      var st = window.pageYOffset
+      if(Math.abs(lastScrollTop - st) <= delta)
+        return;
+
+      if (st > lastScrollTop && st >  window.innerHeight){
+        {/*elem.classList.remove('nav-up')
+         elem.classList.add('container')*/}
+        elem.style.display="block"
+
+      } else {
+          {/* elem.classList.remove('container')
+           elem.classList.add('nav-up')*/}
+          elem.style.display="none"
+        }
+
+      lastScrollTop = st
+    })
+
     return <div>
       <Favicon url={["//cires1.colorado.edu/favicon.ico"]}/>
           {/*<Favicon url={["//www.noaa.gov/sites/all/themes/custom/noaa/favicon.ico"]}/>*/}
@@ -57,7 +82,9 @@ class RootComponent extends React.Component {
       <div className={styles.results}>
         {this.props.children}
       </div>
-      <Footer/>
+      <div id ="footer" className={styles.container}>
+        <Footer/>
+      </div>
      </div>
     }
 }

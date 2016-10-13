@@ -49,7 +49,6 @@ let Footer = ({dispatch}) => {
     })
 
     return (
-      <div className={styles.container}>
           <div className={styles.panel}>
               {/*<div className={`pure-g pure-u-lg`}>*/}
                   {/*<div className={`pure-u-1-2 ${styles.noaaLinks}`}>*/}
@@ -103,7 +102,6 @@ let Footer = ({dispatch}) => {
                   {/*</div>*/}
               </div>
           </div>
-      </div>
     )
 }
 
