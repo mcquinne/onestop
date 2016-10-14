@@ -9,6 +9,7 @@ import Footer from './Footer.jsx'
 import AlphaBanner from './AlphaBanner.jsx'
 import styles from './root.css'
 import SearchFieldsContainer from '../search/SearchFieldsContainer'
+import ReactDOM from 'react-dom'
 
 class RootComponent extends React.Component {
   constructor(props) {
@@ -18,9 +19,9 @@ class RootComponent extends React.Component {
 
   render() {
     var searchlabel
-    var lastScrollTop = 0
+    var didScroll
+    var className
 
-    var delta = 5
     if (this.props.location.pathname !== "/"){
         this.breadcrumbs = <Breadcrumbs
             routes={this.props.routes}
@@ -34,24 +35,23 @@ class RootComponent extends React.Component {
     }
 
     window.addEventListener('scroll', (event) => {
-      var elem =document.getElementById('footer')
-      var st = window.pageYOffset
-      if(Math.abs(lastScrollTop - st) <= delta)
-        return;
-
-      if (st > lastScrollTop && st >  window.innerHeight){
-        {/*elem.classList.remove('nav-up')
-         elem.classList.add('container')*/}
-        elem.style.display="block"
-
-      } else {
-          {/* elem.classList.remove('container')
-           elem.classList.add('nav-up')*/}
-          elem.style.display="none"
-        }
-
-      lastScrollTop = st
+      didScroll = true
     })
+
+    if (this.props.location.pathname !== "/") {
+      var st = window.pageYOffset
+      if (didScroll) {
+        className = styles.navUp
+        console.log( className)
+
+      }else {
+        className = styles.navDown
+        console.log( className)
+      }
+
+    }else {
+      className = styles.container
+    }
 
     return <div>
       <Favicon url={["//cires1.colorado.edu/favicon.ico"]}/>
@@ -82,7 +82,7 @@ class RootComponent extends React.Component {
       <div className={styles.results}>
         {this.props.children}
       </div>
-      <div id ="footer" className={styles.container}>
+      <div id ="footer" className={className}>
         <Footer/>
       </div>
      </div>
